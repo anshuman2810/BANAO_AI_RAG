@@ -1,17 +1,17 @@
-# System Explanation
+# RAG System Explanation
 
 ## Chunk Size Choice
 
 The backend uses a default chunk size of 900 characters with 150 characters of overlap.
 
-This size was chosen to balance retrieval precision and context completeness:
+This size balances retrieval precision and context completeness:
 
 - Smaller chunks are easier to match during similarity search but can lose surrounding meaning.
 - Larger chunks preserve more context but often retrieve irrelevant neighboring text.
 - 900 characters usually holds one or two compact paragraphs, which is enough context for common question answering while keeping the LLM prompt small.
 - 150 characters of overlap reduces the chance that a key sentence split across two chunks disappears from retrieval.
 
-The implementation also tries to end chunks on sentence boundaries when possible, which makes retrieved context cleaner for answer generation.
+The chunking logic also attempts to end chunks on sentence boundaries when possible, which makes retrieved context cleaner for answer generation.
 
 ## Retrieval Failure Case Observed
 
@@ -25,12 +25,12 @@ Question: What problem does this project solve?
 
 If the document says "retrieval-augmented generation combines information retrieval with language generation" but never uses the words "problem" or "solve", the local hashing embedding can rank a less useful chunk above the best explanatory chunk. This happens because the lightweight local embedding model is based on lexical overlap and hashed word n-grams, so it is weaker at semantic paraphrases than neural embeddings.
 
-Mitigation:
+Mitigation strategies:
 
-- keep chunk overlap so related details stay together
-- return multiple top chunks instead of only one
-- expose similarity scores so weak retrieval can be detected
-- allow swapping the embedding layer for Sentence Transformers or another semantic model later
+- Chunk overlap keeps related details together.
+- Multiple top chunks are returned instead of only one.
+- Similarity scores are exposed so weak retrieval can be detected.
+- The embedding layer can be replaced with Sentence Transformers or another semantic model later.
 
 ## Metric Tracked
 
@@ -52,9 +52,9 @@ Latency is useful because a RAG API has several steps: query embedding, vector s
 
 Similarity score is useful because low scores usually mean the uploaded documents do not contain a strong answer or the query wording does not match the document wording.
 
-## Why No Heavy Framework
+## Framework Choice
 
-The implementation avoids LangChain/LlamaIndex templates so the screening reviewer can directly inspect:
+The implementation avoids heavy RAG frameworks such as LangChain or LlamaIndex so the core system behavior remains transparent:
 
 - chunking behavior
 - embedding generation
@@ -64,4 +64,4 @@ The implementation avoids LangChain/LlamaIndex templates so the screening review
 - answer generation
 - API validation and rate limiting
 
-This makes the system easier to explain during an interview and keeps the backend small enough for a focused internship task.
+This keeps the backend compact, explainable, and aligned with the project requirement to avoid unexplained default RAG templates.

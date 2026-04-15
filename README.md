@@ -1,6 +1,6 @@
 # RAG-Based Question Answering System
 
-A compact FastAPI backend for uploading documents, ingesting them in a background job, retrieving relevant chunks, and answering questions with a Retrieval-Augmented Generation workflow.
+This project is a FastAPI backend for document-based question answering using a Retrieval-Augmented Generation workflow. It supports document upload, background ingestion, chunking, embedding, local vector search, and answer generation through a locally running Ollama model.
 
 The project intentionally avoids full RAG frameworks so the chunking, retrieval, ingestion jobs, request validation, rate limiting, and metrics are visible in the code.
 
@@ -42,7 +42,7 @@ OLLAMA_BASE_URL=http://127.0.0.1:11434
 OLLAMA_MODEL=llama3.2
 ```
 
-If Ollama is not running, the API still works and returns an extractive answer using the retrieved chunks.
+If Ollama is not running, the API returns an extractive answer using the retrieved chunks.
 
 To use Ollama locally:
 
@@ -57,7 +57,7 @@ ollama serve
 uvicorn app.main:app --reload
 ```
 
-Open:
+Available endpoints:
 
 - API docs: <http://127.0.0.1:8000/docs>
 - Health check: <http://127.0.0.1:8000/health>
@@ -94,14 +94,10 @@ The architecture diagram is available at:
 - `docs/architecture.mmd`
 - `docs/architecture.drawio`
 
-## Project Notes
+## System Explanation
 
-Detailed screening explanations are in `docs/EXPLANATION.md`.
+Detailed design notes are available in `docs/EXPLANATION.md`.
 
 ## Repository Link
 
-Add your GitHub link here after pushing the project:
-
-```text
 https://github.com/anshuman2810/BANAO_AI_RAG
-```
