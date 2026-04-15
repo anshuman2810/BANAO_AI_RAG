@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     embedding_dimensions: int = 384
     ollama_base_url: str = "http://127.0.0.1:11434"
     ollama_model: str = "llama3.2"
+    ollama_num_predict: int = 160
+    ollama_timeout_seconds: int = 30
+    ollama_keep_alive: str = "15m"
 
     @property
     def upload_dir(self) -> Path:

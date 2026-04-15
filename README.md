@@ -61,6 +61,18 @@ Available endpoints:
 
 - API docs: <http://127.0.0.1:8000/docs>
 - Health check: <http://127.0.0.1:8000/health>
+- LLM warmup: <http://127.0.0.1:8000/llm/warmup>
+
+## Latency Notes
+
+Ollama response time depends heavily on the selected local model and machine resources. The backend keeps the model loaded for 15 minutes and limits generated output to reduce latency.
+
+Recommended demo settings:
+
+- Call `POST /llm/warmup` once before testing `/query`.
+- Use `top_k` between `1` and `3` for shorter prompts.
+- Use `OLLAMA_MODEL=llama3.2:1b` for faster answers on low-resource machines, or `OLLAMA_MODEL=llama3.2` for better answer quality.
+- Reduce `OLLAMA_NUM_PREDICT` to `80` or `120` for shorter, faster answers.
 
 ## API Usage
 

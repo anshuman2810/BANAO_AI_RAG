@@ -9,7 +9,7 @@ from app.config import Settings, get_settings
 from app.document_loader import SUPPORTED_EXTENSIONS
 from app.embeddings import HashingEmbeddingModel
 from app.jobs import JobRegistry, ingest_document
-from app.llm import generate_answer
+from app.llm import generate_answer, warm_ollama_model
 from app.models import (
     DocumentInfo,
     JobInfo,
@@ -37,6 +37,22 @@ def get_rate_limiter() -> InMemoryRateLimiter:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.post("/llm/warmup", dependencies=[Depends(get_rate_limiter())])
+def warmup_llm(current_settings: Settings = Depends(get_settings)) -> dict[str, str]:
+    try:
+        warm_ollama_model(current_settings)
+        return {
+            "status": "ready",
+            "model": current_settings.ollama_model,
+            "provider": "ollama",
+        }
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Ollama warmup failed: {exc}",
+        ) from exc
 
 
 @app.post(
@@ -157,4 +173,3 @@ def query_documents(
             retrieved_chunks=len(filtered),
         ),
     )
-
