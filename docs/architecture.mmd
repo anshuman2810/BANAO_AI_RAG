@@ -1,0 +1,27 @@
+flowchart TD
+    Client["Client / API User"]
+    Upload["POST /documents"]
+    Job["Background ingestion job"]
+    Loader["PDF / TXT loader"]
+    Chunker["Chunker 900 chars + 150 overlap"]
+    Embedder["Hashing embedding model"]
+    Store["Local vector store embeddings.npy + metadata.json"]
+    Query["POST /query"]
+    Search["Similarity search"]
+    LLM["Ollama LLM or local extractive fallback"]
+    Response["Answer + sources + metrics"]
+
+    Client --> Upload
+    Upload --> Job
+    Job --> Loader
+    Loader --> Chunker
+    Chunker --> Embedder
+    Embedder --> Store
+
+    Client --> Query
+    Query --> Embedder
+    Embedder --> Search
+    Store --> Search
+    Search --> LLM
+    LLM --> Response
+    Response --> Client

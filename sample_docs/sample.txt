@@ -1,0 +1,6 @@
+Retrieval-Augmented Generation combines information retrieval with language generation.
+The system first stores document chunks as embeddings in a vector store.
+When a user asks a question, the system embeds the question and retrieves similar chunks.
+The retrieved chunks are then sent to a language model so the answer is grounded in the uploaded documents.
+This sample document is useful for testing the upload, ingestion, retrieval, and answer generation flow.
+
