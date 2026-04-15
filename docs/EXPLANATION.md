@@ -64,4 +64,3 @@ The implementation avoids heavy RAG frameworks such as LangChain or LlamaIndex s
 - answer generation
 - API validation and rate limiting
 
-This keeps the backend compact, explainable, and aligned with the project requirement to avoid unexplained default RAG templates.
