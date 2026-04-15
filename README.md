@@ -103,5 +103,5 @@ Detailed screening explanations are in `docs/EXPLANATION.md`.
 Add your GitHub link here after pushing the project:
 
 ```text
-https://github.com/<your-username>/<your-repo-name>
+https://github.com/anshuman2810/BANAO_AI_RAG
 ```
